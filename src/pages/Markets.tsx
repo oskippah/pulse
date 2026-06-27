@@ -110,7 +110,7 @@ export function Markets({ filters, favoriteTeamIds, onMatchClick }: Props) {
         })}
       </div>
 
-      <div className="flex-1 overflow-y-auto scroll-smooth-ios pb-24">
+      <div className="flex-1 overflow-y-auto scroll-smooth-ios mb-nav">
 
         {/* Favorite WK-matches */}
         {favoriteMatches.length > 0 && (

@@ -34,8 +34,8 @@ export default function App() {
   }
 
   return (
-    <div className="min-h-svh bg-gray-50 dark:bg-black text-black dark:text-white">
-      <div className="h-svh flex flex-col overflow-hidden">
+    <div className="h-full bg-gray-50 dark:bg-black text-black dark:text-white">
+      <div className="h-full flex flex-col overflow-hidden">
         <div className={tab === 'markets' ? 'flex flex-col flex-1 overflow-hidden' : 'hidden'}>
           <Markets
             filters={prefs.newsFilters}

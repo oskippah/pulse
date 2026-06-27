@@ -45,7 +45,7 @@ function MatchDetailView({ match, detail, loading, onBack, favoriteTeamIds, onTo
           </button>
         }
       />
-      <div className="flex-1 overflow-y-auto scroll-smooth-ios pb-24 px-4 py-4 space-y-4">
+      <div className="flex-1 overflow-y-auto scroll-smooth-ios mb-nav px-4 py-4 space-y-4">
 
         {/* Score card */}
         <div className={`rounded-2xl border p-5 ${isLive ? 'bg-green-50 dark:bg-green-950/30 border-green-200 dark:border-green-800' : 'bg-white dark:bg-zinc-900 border-gray-100 dark:border-zinc-800'}`}>
@@ -279,7 +279,7 @@ export function WorldCup({ favoriteTeamIds, onToggleFavorite, initialMatch, onNa
         </div>
       )}
 
-      <div className="flex-1 overflow-y-auto scroll-smooth-ios pb-24">
+      <div className="flex-1 overflow-y-auto scroll-smooth-ios mb-nav">
         {loading && <Spinner />}
         {!loading && error && <ErrorState message={error} onRetry={refresh} />}
         {!loading && !error && matches.length === 0 && (

@@ -5,6 +5,8 @@
 
 * {
   -webkit-tap-highlight-color: transparent;
+  /* Prevent 300ms tap delay on all touchscreens */
+  touch-action: manipulation;
 }
 
 body {
@@ -12,7 +14,20 @@ body {
   font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text',
     'Helvetica Neue', system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
+  /* Prevent font scaling when rotating on iOS */
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
   overscroll-behavior: none;
+  /* Prevent iOS rubber-band scroll on the body */
+  overflow: hidden;
+  position: fixed;
+  width: 100%;
+  height: 100%;
+}
+
+#root {
+  height: 100%;
+  overflow: hidden;
 }
 
 /* Smooth scrolling for all scroll containers */
@@ -21,12 +36,21 @@ body {
   scroll-behavior: smooth;
 }
 
-/* iOS safe area — fixes white bar at bottom in Safari */
+/* ── Safe area utilities ──────────────────────────────────────────────────── */
+
+/* Top: pushes content below Dynamic Island / notch / status bar */
+.pt-safe {
+  padding-top: env(safe-area-inset-top, 0px);
+}
+
+/* Bottom: pushes content above the home indicator */
 .pb-safe {
   padding-bottom: max(env(safe-area-inset-bottom, 0px), 8px);
 }
+
+/* Space for fixed bottom nav + home indicator */
 .mb-nav {
-  margin-bottom: calc(64px + env(safe-area-inset-bottom, 0px));
+  margin-bottom: calc(60px + env(safe-area-inset-bottom, 0px));
 }
 
 /* Hide scrollbars */

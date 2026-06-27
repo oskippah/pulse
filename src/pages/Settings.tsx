@@ -95,7 +95,7 @@ export function Settings({ prefs, onChange }: Props) {
   return (
     <div className="flex flex-col h-full">
       <Header title="Settings" />
-      <div className="flex-1 overflow-y-auto scroll-smooth-ios pb-24 px-4 py-4">
+      <div className="flex-1 overflow-y-auto scroll-smooth-ios mb-nav px-4 py-4">
 
         {/* Appearance */}
         <Section title="Appearance">

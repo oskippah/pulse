@@ -6,7 +6,7 @@ interface Props {
 
 export function Header({ title, subtitle, right }: Props) {
   return (
-    <header className="sticky top-0 z-40 bg-white/85 dark:bg-black/85 backdrop-blur-xl border-b border-gray-200/60 dark:border-zinc-800/60">
+    <header className="sticky top-0 z-40 bg-white/85 dark:bg-black/85 backdrop-blur-xl border-b border-gray-200/60 dark:border-zinc-800/60 pt-safe">
       <div className="flex items-center justify-between px-4 py-3">
         <div>
           <h1 className="text-xl font-bold tracking-tight text-black dark:text-white leading-tight">
