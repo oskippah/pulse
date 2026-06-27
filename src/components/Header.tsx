@@ -6,17 +6,32 @@ interface Props {
 
 export function Header({ title, subtitle, right }: Props) {
   return (
-    <header className="sticky top-0 z-40 bg-white/85 dark:bg-black/85 backdrop-blur-xl border-b border-gray-200/60 dark:border-zinc-800/60 pt-safe">
-      <div className="flex items-center justify-between px-4 py-3">
-        <div>
-          <h1 className="text-xl font-bold tracking-tight text-black dark:text-white leading-tight">
+    <header
+      className="sticky top-0 z-40"
+      style={{
+        background: 'var(--c-nav)',
+        borderBottom: '0.5px solid var(--c-sep)',
+        backdropFilter: 'blur(20px) saturate(180%)',
+        WebkitBackdropFilter: 'blur(20px) saturate(180%)',
+        /* Safe area: content sits below Dynamic Island / notch / status bar */
+        paddingTop: 'env(safe-area-inset-top, 0px)',
+      }}
+    >
+      <div className="flex items-center justify-between px-4 py-3 min-h-[52px]">
+        <div className="min-w-0 flex-1">
+          <h1
+            className="text-xl font-bold tracking-tight leading-tight truncate"
+            style={{ color: 'var(--c-text)' }}
+          >
             {title}
           </h1>
           {subtitle && (
-            <p className="text-xs text-gray-500 dark:text-gray-400 mt-0.5">{subtitle}</p>
+            <p className="text-[11px] mt-0.5 truncate" style={{ color: 'var(--c-text3)' }}>
+              {subtitle}
+            </p>
           )}
         </div>
-        {right && <div>{right}</div>}
+        {right && <div className="ml-2 shrink-0">{right}</div>}
       </div>
     </header>
   )

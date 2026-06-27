@@ -1,58 +1,139 @@
 @import "tailwindcss";
 
-/* Class-based dark mode for Tailwind v4 */
+/* ── Tailwind v4: class-based dark mode ───────────────────────────────────── */
 @custom-variant dark (&:where(.dark, .dark *));
 
-* {
+/* ── iOS design tokens ────────────────────────────────────────────────────── */
+:root {
+  /* Backgrounds */
+  --c-bg:       #F2F2F7;   /* iOS grouped background */
+  --c-surface:  #FFFFFF;   /* card / sheet */
+  --c-surface2: #F2F2F7;   /* inset / secondary */
+  --c-nav:      rgba(242,242,247,0.92);
+
+  /* Borders */
+  --c-sep:      rgba(60,60,67,0.12);
+
+  /* Text */
+  --c-text:     #000000;
+  --c-text2:    #3C3C43CC;  /* 80% */
+  --c-text3:    #3C3C4399;  /* 60% */
+  --c-text4:    #3C3C4366;  /* 40% */
+
+  /* Accent */
+  --c-accent:   #007AFF;
+  --c-green:    #34C759;
+  --c-red:      #FF3B30;
+  --c-orange:   #FF9500;
+  --c-yellow:   #FFCC00;
+  --c-purple:   #AF52DE;
+
+  /* Shadows (only in light) */
+  --c-shadow:   rgba(0,0,0,0.06);
+}
+
+:root.dark {
+  --c-bg:       #000000;
+  --c-surface:  #1C1C1E;
+  --c-surface2: #2C2C2E;
+  --c-nav:      rgba(18,18,18,0.92);
+  --c-sep:      rgba(255,255,255,0.08);
+  --c-text:     #FFFFFF;
+  --c-text2:    #EBEBF5CC;
+  --c-text3:    #EBEBF599;
+  --c-text4:    #EBEBF566;
+  --c-accent:   #0A84FF;
+  --c-green:    #30D158;
+  --c-red:      #FF453A;
+  --c-orange:   #FF9F0A;
+  --c-yellow:   #FFD60A;
+  --c-purple:   #BF5AF2;
+  --c-shadow:   transparent;
+}
+
+/* ── Reset & base ─────────────────────────────────────────────────────────── */
+*, *::before, *::after {
+  box-sizing: border-box;
   -webkit-tap-highlight-color: transparent;
-  /* Prevent 300ms tap delay on all touchscreens */
   touch-action: manipulation;
 }
 
-body {
+html, body {
   margin: 0;
+  padding: 0;
+  height: 100%;
+  /* Prevent body scroll — all scrolling happens inside containers */
+  overflow: hidden;
+}
+
+body {
   font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text',
     'Helvetica Neue', system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
-  /* Prevent font scaling when rotating on iOS */
+  -moz-osx-font-smoothing: grayscale;
   -webkit-text-size-adjust: 100%;
   text-size-adjust: 100%;
+  background: var(--c-bg);
+  color: var(--c-text);
   overscroll-behavior: none;
-  /* Prevent iOS rubber-band scroll on the body */
-  overflow: hidden;
-  position: fixed;
-  width: 100%;
-  height: 100%;
 }
 
 #root {
   height: 100%;
-  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  /* Full-screen on iOS: account for Dynamic Island / notch */
+  height: 100dvh;
 }
 
-/* Smooth scrolling for all scroll containers */
-.scroll-smooth-ios {
-  -webkit-overflow-scrolling: touch;
-  scroll-behavior: smooth;
-}
+/* ── iOS-style utilities ──────────────────────────────────────────────────── */
 
-/* ── Safe area utilities ──────────────────────────────────────────────────── */
-
-/* Top: pushes content below Dynamic Island / notch / status bar */
+/* Top: pushes content below Dynamic Island / notch */
 .pt-safe {
   padding-top: env(safe-area-inset-top, 0px);
 }
 
-/* Bottom: pushes content above the home indicator */
+/* Bottom: above home indicator */
 .pb-safe {
   padding-bottom: max(env(safe-area-inset-bottom, 0px), 8px);
 }
 
-/* Space for fixed bottom nav + home indicator */
+/* Scroll content clears the fixed bottom nav */
 .mb-nav {
-  margin-bottom: calc(60px + env(safe-area-inset-bottom, 0px));
+  padding-bottom: calc(60px + max(env(safe-area-inset-bottom, 0px), 0px) + 8px);
 }
 
-/* Hide scrollbars */
+/* ── Scrolling ────────────────────────────────────────────────────────────── */
+.scroll-ios {
+  overflow-y: auto;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-y: contain;
+}
+
 .scrollbar-none::-webkit-scrollbar { display: none; }
 .scrollbar-none { scrollbar-width: none; }
+
+/* ── Skeleton shimmer ─────────────────────────────────────────────────────── */
+@keyframes shimmer {
+  0%   { background-position: -200% 0; }
+  100% { background-position:  200% 0; }
+}
+
+.skeleton {
+  background: linear-gradient(
+    90deg,
+    var(--c-surface2) 25%,
+    var(--c-sep)       50%,
+    var(--c-surface2) 75%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.4s ease-in-out infinite;
+  border-radius: 6px;
+}
+
+/* ── Animations ───────────────────────────────────────────────────────────── */
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.4; }
+}

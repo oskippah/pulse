@@ -38,54 +38,70 @@ function MatchDetailView({ match, detail, loading, onBack, favoriteTeamIds, onTo
     <div className="flex flex-col h-full">
       <Header
         title={`${match.homeTeam.tla} – ${match.awayTeam.tla}`}
-        subtitle={`${formatLocal(match.utcDate, 'EEEE d MMM · HH:mm')}${match.venue ? ` · ${match.venue.name}, ${match.venue.city}` : ''}`}
+        subtitle={`${formatLocal(match.utcDate, 'EEEE d MMM · HH:mm')}${match.venue ? ` · ${match.venue.city}` : ''}`}
         right={
-          <button onClick={onBack} className="text-blue-500 font-semibold min-w-[44px] min-h-[44px] flex items-center justify-end pr-1">
+          <button
+            onClick={onBack}
+            className="min-w-[44px] min-h-[44px] flex items-center justify-center font-semibold text-[15px]"
+            style={{ color: 'var(--c-accent)' }}
+          >
             ← Terug
           </button>
         }
       />
-      <div className="flex-1 overflow-y-auto scroll-smooth-ios mb-nav px-4 py-4 space-y-4">
+      <div className="flex-1 scroll-ios mb-nav px-4 py-4 space-y-3">
 
         {/* Score card */}
-        <div className={`rounded-2xl border p-5 ${isLive ? 'bg-green-50 dark:bg-green-950/30 border-green-200 dark:border-green-800' : 'bg-white dark:bg-zinc-900 border-gray-100 dark:border-zinc-800'}`}>
-          <div className="flex items-center gap-4">
-            {/* Home team */}
+        <div
+          className="rounded-2xl p-5"
+          style={{
+            background: isLive ? 'rgba(48,209,88,0.08)' : 'var(--c-surface)',
+            border: `1px solid ${isLive ? 'var(--c-green)' : 'var(--c-sep)'}`,
+          }}
+        >
+          <div className="flex items-center gap-3">
             <div className="flex flex-col items-center gap-2 flex-1">
-              {match.homeTeam.crest && <img src={match.homeTeam.crest} alt="" className="w-14 h-14 object-contain" />}
-              <span className="text-sm font-semibold text-black dark:text-white text-center">{match.homeTeam.shortName || match.homeTeam.name}</span>
+              {match.homeTeam.crest && <img src={match.homeTeam.crest} alt="" className="w-16 h-16 object-contain" />}
+              <span className="text-[14px] font-semibold text-center" style={{ color: 'var(--c-text)' }}>
+                {match.homeTeam.shortName || match.homeTeam.name}
+              </span>
               <button
                 onClick={() => onToggleFavorite(match.homeTeam.id)}
-                className={`min-w-[44px] min-h-[44px] flex items-center justify-center gap-1 text-xs transition-colors ${favoriteTeamIds.includes(match.homeTeam.id) ? 'text-yellow-500' : 'text-gray-300 dark:text-zinc-600'}`}
+                className="min-w-[44px] min-h-[44px] flex items-center justify-center gap-1 text-[12px]"
+                style={{ color: favoriteTeamIds.includes(match.homeTeam.id) ? 'var(--c-yellow)' : 'var(--c-text4)' }}
               >
-                <Star size={14} className={favoriteTeamIds.includes(match.homeTeam.id) ? 'fill-yellow-400' : ''} />
-                {favoriteTeamIds.includes(match.homeTeam.id) ? 'Favoriet' : 'Voeg toe'}
+                <span>{favoriteTeamIds.includes(match.homeTeam.id) ? '★' : '☆'}</span>
+                {favoriteTeamIds.includes(match.homeTeam.id) ? 'Favoriet' : 'Volgen'}
               </button>
             </div>
 
-            {/* Score */}
             <div className="text-center px-2 shrink-0">
               {showScore
-                ? <span className={`text-4xl font-bold tracking-tight ${isLive ? 'text-green-500' : 'text-black dark:text-white'}`}>
+                ? <span className="text-4xl font-bold tabular-nums" style={{ color: isLive ? 'var(--c-green)' : 'var(--c-text)' }}>
                     {match.score.fullTime.home ?? 0}–{match.score.fullTime.away ?? 0}
                   </span>
-                : <span className="text-xl text-gray-300 dark:text-zinc-600">vs</span>
+                : <span className="text-2xl" style={{ color: 'var(--c-text4)' }}>vs</span>
               }
-              <p className={`text-[10px] mt-1 font-medium ${isLive ? 'text-green-500' : 'text-gray-400'}`}>
-                {isLive && match.status === 'PAUSED' ? '⏸ Rust' : isLive ? '● LIVE' : isFinished ? 'Afgelopen' : formatLocal(match.utcDate, 'HH:mm')}
+              <p className="text-[11px] mt-1 font-semibold" style={{ color: isLive ? 'var(--c-green)' : 'var(--c-text3)' }}>
+                {isLive && match.status === 'PAUSED' ? '⏸ Rust'
+                  : isLive ? '● LIVE'
+                  : isFinished ? 'Afgelopen'
+                  : formatLocal(match.utcDate, 'HH:mm')}
               </p>
             </div>
 
-            {/* Away team */}
             <div className="flex flex-col items-center gap-2 flex-1">
-              {match.awayTeam.crest && <img src={match.awayTeam.crest} alt="" className="w-14 h-14 object-contain" />}
-              <span className="text-sm font-semibold text-black dark:text-white text-center">{match.awayTeam.shortName || match.awayTeam.name}</span>
+              {match.awayTeam.crest && <img src={match.awayTeam.crest} alt="" className="w-16 h-16 object-contain" />}
+              <span className="text-[14px] font-semibold text-center" style={{ color: 'var(--c-text)' }}>
+                {match.awayTeam.shortName || match.awayTeam.name}
+              </span>
               <button
                 onClick={() => onToggleFavorite(match.awayTeam.id)}
-                className={`min-w-[44px] min-h-[44px] flex items-center justify-center gap-1 text-xs transition-colors ${favoriteTeamIds.includes(match.awayTeam.id) ? 'text-yellow-500' : 'text-gray-300 dark:text-zinc-600'}`}
+                className="min-w-[44px] min-h-[44px] flex items-center justify-center gap-1 text-[12px]"
+                style={{ color: favoriteTeamIds.includes(match.awayTeam.id) ? 'var(--c-yellow)' : 'var(--c-text4)' }}
               >
-                <Star size={14} className={favoriteTeamIds.includes(match.awayTeam.id) ? 'fill-yellow-400' : ''} />
-                {favoriteTeamIds.includes(match.awayTeam.id) ? 'Favoriet' : 'Voeg toe'}
+                <span>{favoriteTeamIds.includes(match.awayTeam.id) ? '★' : '☆'}</span>
+                {favoriteTeamIds.includes(match.awayTeam.id) ? 'Favoriet' : 'Volgen'}
               </button>
             </div>
           </div>
@@ -93,25 +109,27 @@ function MatchDetailView({ match, detail, loading, onBack, favoriteTeamIds, onTo
 
         {loading && <Spinner />}
 
-        {/* Lineup */}
-        <div className="bg-white dark:bg-zinc-900 rounded-2xl border border-gray-100 dark:border-zinc-800 p-4">
-          <h3 className="text-sm font-semibold text-black dark:text-white mb-3">Opstelling</h3>
+        {/* Opstelling */}
+        <div className="rounded-2xl p-4" style={{ background: 'var(--c-surface)' }}>
+          <h3 className="text-[15px] font-semibold mb-3" style={{ color: 'var(--c-text)' }}>Opstelling</h3>
           {!loading && !hasLineup
-            ? <p className="text-xs text-gray-400 dark:text-zinc-500">Opstellingsdata niet beschikbaar op de gratis tier van football-data.org.</p>
+            ? <p className="text-[13px]" style={{ color: 'var(--c-text3)' }}>
+                Opstellingen zijn niet beschikbaar op de gratis API-tier.
+              </p>
             : hasLineup && (
               <div className="grid grid-cols-2 gap-4">
                 {(['homeTeam', 'awayTeam'] as const).map((side) => {
                   const team = (detail as any)[side]
                   return (
                     <div key={side}>
-                      <p className="text-xs font-semibold text-gray-500 dark:text-zinc-400 mb-2">
+                      <p className="text-[12px] font-semibold mb-2" style={{ color: 'var(--c-text3)' }}>
                         {side === 'homeTeam' ? match.homeTeam.shortName : match.awayTeam.shortName}
                       </p>
                       {(team?.lineup ?? []).map((p: Player) => (
-                        <p key={p.id} className="text-xs text-black dark:text-white py-0.5 flex gap-2">
-                          {p.shirtNumber && <span className="text-gray-400 w-4 shrink-0">{p.shirtNumber}</span>}
-                          {p.name}
-                        </p>
+                        <div key={p.id} className="flex gap-2 py-0.5">
+                          {p.shirtNumber && <span className="text-[12px] w-4 shrink-0" style={{ color: 'var(--c-text4)' }}>{p.shirtNumber}</span>}
+                          <span className="text-[12px]" style={{ color: 'var(--c-text)' }}>{p.name}</span>
+                        </div>
                       ))}
                     </div>
                   )
@@ -120,42 +138,56 @@ function MatchDetailView({ match, detail, loading, onBack, favoriteTeamIds, onTo
             )
           }
         </div>
-
-        <div className="bg-white dark:bg-zinc-900 rounded-2xl border border-gray-100 dark:border-zinc-800 p-4">
-          <h3 className="text-sm font-semibold text-black dark:text-white mb-2">Blessures & B-ploeg</h3>
-          <p className="text-xs text-gray-400 dark:text-zinc-500">Niet beschikbaar op de gratis tier van football-data.org.</p>
-        </div>
       </div>
     </div>
   )
 }
 
-// ── Standings table ────────────────────────────────────────────────────────────
+// ── Standings ──────────────────────────────────────────────────────────────────
 function StandingsTable({ table, favoriteTeamIds }: { table: Standing[]; favoriteTeamIds: number[] }) {
   return (
-    <div className="bg-white dark:bg-zinc-900 rounded-2xl border border-gray-100 dark:border-zinc-800 overflow-hidden mb-3">
-      <div className="grid grid-cols-[20px_1fr_28px_28px_28px_32px] gap-x-2 px-3 py-2 bg-gray-50 dark:bg-zinc-800/50 text-[10px] text-gray-400 dark:text-zinc-500 font-semibold uppercase tracking-wide">
-        <span>#</span><span>Team</span><span className="text-center">S</span><span className="text-center">W</span><span className="text-center">G</span><span className="text-center">Pts</span>
+    <div className="rounded-2xl overflow-hidden mb-3" style={{ background: 'var(--c-surface)', border: '0.5px solid var(--c-sep)' }}>
+      <div
+        className="grid grid-cols-[20px_1fr_28px_28px_28px_32px] gap-x-2 px-3 py-2 text-[10px] font-semibold uppercase tracking-wide"
+        style={{ background: 'var(--c-surface2)', color: 'var(--c-text3)' }}
+      >
+        <span>#</span><span>Team</span>
+        <span className="text-center">S</span><span className="text-center">W</span>
+        <span className="text-center">G</span><span className="text-center">Pts</span>
       </div>
       {table.map((row, i) => (
-        <div key={row.team.id} className={`grid grid-cols-[20px_1fr_28px_28px_28px_32px] gap-x-2 px-3 py-2.5 border-t border-gray-100 dark:border-zinc-800 items-center ${favoriteTeamIds.includes(row.team.id) ? 'bg-yellow-50 dark:bg-yellow-950/20' : ''}`}>
-          <span className={`text-xs font-bold text-center ${i < 2 ? 'text-green-500' : 'text-gray-400 dark:text-zinc-500'}`}>{row.position}</span>
+        <div
+          key={row.team.id}
+          className="grid grid-cols-[20px_1fr_28px_28px_28px_32px] gap-x-2 px-3 py-2.5 items-center"
+          style={{
+            borderTop: '0.5px solid var(--c-sep)',
+            background: favoriteTeamIds.includes(row.team.id) ? 'rgba(255,204,0,0.06)' : 'transparent',
+          }}
+        >
+          <span
+            className="text-[11px] font-bold text-center"
+            style={{ color: i < 2 ? 'var(--c-green)' : 'var(--c-text4)' }}
+          >
+            {row.position}
+          </span>
           <div className="flex items-center gap-1.5 min-w-0">
             {row.team.crest && <img src={row.team.crest} alt="" className="w-5 h-5 object-contain shrink-0" />}
-            <span className="text-xs font-medium text-black dark:text-white truncate">{row.team.shortName || row.team.name}</span>
-            {favoriteTeamIds.includes(row.team.id) && <Star size={10} className="fill-yellow-400 text-yellow-400 shrink-0" />}
+            <span className="text-[12px] font-medium truncate" style={{ color: 'var(--c-text)' }}>
+              {row.team.shortName || row.team.name}
+            </span>
+            {favoriteTeamIds.includes(row.team.id) && <span className="text-[10px]" style={{ color: 'var(--c-yellow)' }}>★</span>}
           </div>
-          <span className="text-xs text-gray-500 text-center">{row.playedGames}</span>
-          <span className="text-xs text-gray-500 text-center">{row.won}</span>
-          <span className="text-xs text-gray-500 text-center">{row.draw}</span>
-          <span className="text-xs font-bold text-black dark:text-white text-center">{row.points}</span>
+          <span className="text-[12px] text-center" style={{ color: 'var(--c-text3)' }}>{row.playedGames}</span>
+          <span className="text-[12px] text-center" style={{ color: 'var(--c-text3)' }}>{row.won}</span>
+          <span className="text-[12px] text-center" style={{ color: 'var(--c-text3)' }}>{row.draw}</span>
+          <span className="text-[13px] font-bold text-center" style={{ color: 'var(--c-text)' }}>{row.points}</span>
         </div>
       ))}
     </div>
   )
 }
 
-// ── Main page ──────────────────────────────────────────────────────────────────
+// ── Main ───────────────────────────────────────────────────────────────────────
 const FILTER_OPTIONS = ['Alles', 'Vandaag', 'Live', 'Gespeeld', 'Gepland'] as const
 type FilterOption = (typeof FILTER_OPTIONS)[number]
 type View = 'wedstrijden' | 'speelschema'
@@ -195,10 +227,10 @@ export function WorldCup({ favoriteTeamIds, onToggleFavorite, initialMatch, onNa
   ).map((g) => g.replace('GROUP_', 'G'))]
 
   let filtered = selectedGroup === 'Alles'
-    ? matches.filter((m) => m.group) // only group stage in list view
+    ? matches.filter((m) => m.group)
     : matches.filter((m) => m.group === selectedGroup.replace('G', 'GROUP_'))
 
-  if (filterOption === 'Live')     filtered = filtered.filter((m) => m.status === 'IN_PLAY' || m.status === 'PAUSED')
+  if (filterOption === 'Live')          filtered = filtered.filter((m) => m.status === 'IN_PLAY' || m.status === 'PAUSED')
   else if (filterOption === 'Gespeeld') filtered = filtered.filter((m) => m.status === 'FINISHED')
   else if (filterOption === 'Gepland')  filtered = filtered.filter((m) => m.status === 'SCHEDULED' || m.status === 'TIMED')
   else if (filterOption === 'Vandaag')  filtered = filtered.filter((m) => isToday(toZonedTime(parseISO(m.utcDate), TZ)))
@@ -210,7 +242,7 @@ export function WorldCup({ favoriteTeamIds, onToggleFavorite, initialMatch, onNa
   }, {})
   const sortedDates = Object.keys(byDate).sort()
 
-  const subtitle = lastUpdated ? `Updated ${format(lastUpdated, 'HH:mm')}` : undefined
+  const subtitle = lastUpdated ? `Bijgewerkt ${format(lastUpdated, 'HH:mm')}` : undefined
 
   return (
     <div className="flex flex-col h-full">
@@ -218,80 +250,97 @@ export function WorldCup({ favoriteTeamIds, onToggleFavorite, initialMatch, onNa
         title="WK 2026"
         subtitle={subtitle}
         right={
-          <button onClick={refresh} className="text-blue-500 min-w-[44px] min-h-[44px] flex items-center justify-center">
-            <RefreshCw size={18} />
+          <button
+            onClick={refresh}
+            className="min-w-[44px] min-h-[44px] flex items-center justify-center"
+            style={{ color: 'var(--c-accent)' }}
+          >
+            <RefreshCw size={20} />
           </button>
         }
       />
 
-      {/* View toggle: Wedstrijden | Speelschema */}
-      <div className="flex bg-white dark:bg-black border-b border-gray-100 dark:border-zinc-800">
-        {([['wedstrijden', <List size={14} />, 'Wedstrijden'], ['speelschema', <GitBranch size={14} />, 'Speelschema']] as const).map(([v, icon, label]) => (
+      {/* View toggle */}
+      <div
+        className="flex"
+        style={{ background: 'var(--c-surface)', borderBottom: '0.5px solid var(--c-sep)' }}
+      >
+        {([
+          ['wedstrijden', <List size={15} key="l" />, 'Wedstrijden'],
+          ['speelschema', <GitBranch size={15} key="b" />, 'Speelschema'],
+        ] as const).map(([v, icon, label]) => (
           <button
             key={v}
             onClick={() => setView(v)}
-            className={`flex-1 flex items-center justify-center gap-1.5 py-3 text-xs font-semibold transition-colors border-b-2 ${
-              view === v
-                ? 'border-blue-500 text-blue-500'
-                : 'border-transparent text-gray-400 dark:text-zinc-500'
-            }`}
+            className="flex-1 flex items-center justify-center gap-1.5 py-3 text-[13px] font-semibold transition-colors"
+            style={{
+              color: view === v ? 'var(--c-accent)' : 'var(--c-text3)',
+              borderBottom: view === v ? '2px solid var(--c-accent)' : '2px solid transparent',
+            }}
           >
             {icon}{label}
           </button>
         ))}
       </div>
 
-      {/* Filters (only in wedstrijden view) */}
+      {/* Filters */}
       {view === 'wedstrijden' && !loading && !error && (
-        <div className="bg-white/80 dark:bg-black/80 backdrop-blur-sm border-b border-gray-100 dark:border-zinc-800">
+        <div style={{ background: 'var(--c-surface)', borderBottom: '0.5px solid var(--c-sep)' }}>
           <div className="flex gap-2 px-4 pt-2 pb-1 overflow-x-auto scrollbar-none">
-            {FILTER_OPTIONS.map((opt) => (
-              <button
-                key={opt}
-                onClick={() => setFilterOption(opt)}
-                className={`px-3 py-2 rounded-full text-xs font-semibold whitespace-nowrap min-h-[36px] transition-colors ${
-                  filterOption === opt
-                    ? opt === 'Live' ? 'bg-green-500 text-white' : 'bg-blue-500 text-white'
-                    : 'bg-gray-100 dark:bg-zinc-800 text-gray-600 dark:text-gray-300'
-                }`}
-              >
-                {opt === 'Live' ? '● Live' : opt}
-              </button>
-            ))}
+            {FILTER_OPTIONS.map((opt) => {
+              const isActive = filterOption === opt
+              const isLiveOpt = opt === 'Live'
+              return (
+                <button
+                  key={opt}
+                  onClick={() => setFilterOption(opt)}
+                  className="px-3 py-1.5 rounded-full text-[12px] font-semibold whitespace-nowrap min-h-[34px] shrink-0"
+                  style={{
+                    background: isActive ? (isLiveOpt ? 'var(--c-green)' : 'var(--c-accent)') : 'var(--c-surface2)',
+                    color: isActive ? '#fff' : 'var(--c-text2)',
+                    border: `1px solid ${isActive ? 'transparent' : 'var(--c-sep)'}`,
+                  }}
+                >
+                  {isLiveOpt ? '● Live' : opt}
+                </button>
+              )
+            })}
           </div>
           {groups.length > 1 && (
             <div className="flex gap-2 px-4 pb-2 overflow-x-auto scrollbar-none">
-              {groups.map((g) => (
-                <button
-                  key={g}
-                  onClick={() => setSelectedGroup(g)}
-                  className={`px-3 py-2 rounded-full text-xs font-semibold whitespace-nowrap min-h-[36px] transition-colors ${
-                    selectedGroup === g
-                      ? 'bg-purple-500 text-white'
-                      : 'bg-gray-100 dark:bg-zinc-800 text-gray-600 dark:text-gray-300'
-                  }`}
-                >
-                  {g}
-                </button>
-              ))}
+              {groups.map((g) => {
+                const isActive = selectedGroup === g
+                return (
+                  <button
+                    key={g}
+                    onClick={() => setSelectedGroup(g)}
+                    className="px-3 py-1.5 rounded-full text-[12px] font-semibold whitespace-nowrap min-h-[34px] shrink-0"
+                    style={{
+                      background: isActive ? 'var(--c-purple)' : 'var(--c-surface2)',
+                      color: isActive ? '#fff' : 'var(--c-text2)',
+                      border: `1px solid ${isActive ? 'transparent' : 'var(--c-sep)'}`,
+                    }}
+                  >
+                    {g}
+                  </button>
+                )
+              })}
             </div>
           )}
         </div>
       )}
 
-      <div className="flex-1 overflow-y-auto scroll-smooth-ios mb-nav">
+      <div className="flex-1 scroll-ios mb-nav">
         {loading && <Spinner />}
         {!loading && error && <ErrorState message={error} onRetry={refresh} />}
         {!loading && !error && matches.length === 0 && (
-          <EmptyState message="Geen wedstrijddata beschikbaar." />
+          <EmptyState icon="⚽" message="Geen wedstrijddata beschikbaar." />
         )}
 
-        {/* Speelschema / Bracket view */}
         {!loading && !error && view === 'speelschema' && (
           <Bracket matches={matches} onClick={setSelectedMatch} />
         )}
 
-        {/* Wedstrijden list view */}
         {!loading && !error && view === 'wedstrijden' && matches.length > 0 && (
           <div className="px-4 py-3 space-y-5">
             {selectedGroup !== 'Alles' && (() => {
@@ -299,7 +348,7 @@ export function WorldCup({ favoriteTeamIds, onToggleFavorite, initialMatch, onNa
               const standing = standings.find((s) => s.group === fullGroup && s.type === 'TOTAL')
               return standing?.table?.length
                 ? <div>
-                    <p className="text-xs font-semibold text-gray-400 dark:text-zinc-500 uppercase tracking-wide mb-2">
+                    <p className="text-[11px] font-bold uppercase tracking-wide mb-2" style={{ color: 'var(--c-text3)' }}>
                       Stand – Poule {selectedGroup.replace('G', '')}
                     </p>
                     <StandingsTable table={standing.table} favoriteTeamIds={favoriteTeamIds} />
@@ -308,10 +357,10 @@ export function WorldCup({ favoriteTeamIds, onToggleFavorite, initialMatch, onNa
             })()}
 
             {sortedDates.length === 0
-              ? <EmptyState message="Geen wedstrijden voor deze filter." />
+              ? <EmptyState icon="📅" message="Geen wedstrijden voor deze filter." />
               : sortedDates.map((dateKey) => (
                 <div key={dateKey}>
-                  <p className="text-xs font-semibold text-gray-400 dark:text-zinc-500 uppercase tracking-wide mb-2 capitalize">
+                  <p className="text-[11px] font-bold uppercase tracking-wide mb-2 capitalize" style={{ color: 'var(--c-text3)' }}>
                     {friendlyDate(byDate[dateKey][0].utcDate)}
                   </p>
                   <div className="space-y-2">

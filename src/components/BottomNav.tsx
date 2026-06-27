@@ -9,13 +9,21 @@ interface Props {
 const TABS: { id: Tab; label: string; Icon: React.ElementType }[] = [
   { id: 'markets',  label: 'Markets',   Icon: TrendingUp },
   { id: 'worldcup', label: 'World Cup', Icon: Trophy },
-  { id: 'search',   label: 'Search',    Icon: Search },
-  { id: 'settings', label: 'Settings',  Icon: Settings },
+  { id: 'search',   label: 'Zoeken',    Icon: Search },
+  { id: 'settings', label: 'Instellingen', Icon: Settings },
 ]
 
 export function BottomNav({ active, onChange }: Props) {
   return (
-    <nav className="fixed bottom-0 inset-x-0 z-50 bg-white/90 dark:bg-zinc-950/90 backdrop-blur-xl border-t border-gray-200/60 dark:border-zinc-800/60 pb-safe">
+    <nav
+      className="fixed bottom-0 inset-x-0 z-50 pb-safe"
+      style={{
+        background: 'var(--c-nav)',
+        borderTop: '0.5px solid var(--c-sep)',
+        backdropFilter: 'blur(20px) saturate(180%)',
+        WebkitBackdropFilter: 'blur(20px) saturate(180%)',
+      }}
+    >
       <div className="flex">
         {TABS.map(({ id, label, Icon }) => {
           const isActive = active === id
@@ -23,16 +31,14 @@ export function BottomNav({ active, onChange }: Props) {
             <button
               key={id}
               onClick={() => onChange(id)}
-              className={`flex-1 flex flex-col items-center gap-1 py-2.5 transition-colors ${
-                isActive ? 'text-blue-500' : 'text-gray-400 dark:text-zinc-500'
-              }`}
+              className="flex-1 flex flex-col items-center gap-0.5 py-2 transition-opacity active:opacity-60"
+              style={{ color: isActive ? 'var(--c-accent)' : 'var(--c-text3)' }}
             >
               <Icon
-                size={22}
-                strokeWidth={isActive ? 2.2 : 1.8}
-                className="transition-transform active:scale-90"
+                size={24}
+                strokeWidth={isActive ? 2.2 : 1.6}
               />
-              <span className={`text-[10px] font-medium ${isActive ? 'font-semibold' : ''}`}>
+              <span className={`text-[10px] ${isActive ? 'font-semibold' : 'font-normal'}`}>
                 {label}
               </span>
             </button>
