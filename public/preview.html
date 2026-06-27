@@ -3,117 +3,217 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Pulse — iPhone Preview</title>
+  <title>Pulse — iPhone 16 Pro Preview</title>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
+
     body {
-      background: #111;
+      background: #0a0a0a;
       display: flex;
       align-items: center;
       justify-content: center;
       min-height: 100vh;
       font-family: -apple-system, sans-serif;
       padding: 24px;
-    }
-    .wrapper {
-      display: flex;
       gap: 40px;
-      align-items: flex-start;
       flex-wrap: wrap;
-      justify-content: center;
     }
+
+    /* ── iPhone 16 Pro frame ── */
+    .phone-wrap { display: flex; flex-direction: column; align-items: center; gap: 10px; }
+
     .phone {
       position: relative;
-      width: 393px;
-      height: 852px;
-      background: #000;
-      border-radius: 54px;
+      /* iPhone 16 Pro: 402×874 CSS px screen */
+      width: 402px;
+      height: 874px;
+      background: #1a1a1a; /* titanium frame */
+      border-radius: 56px;
       box-shadow:
-        0 0 0 2px #333,
-        0 0 0 6px #1a1a1a,
-        0 40px 80px rgba(0,0,0,0.8);
+        inset 0 0 0 1.5px #3a3a3a,   /* inner edge */
+        0 0 0 3px #2a2a2a,            /* frame edge */
+        0 0 0 5px #1a1a1a,            /* outer frame */
+        0 50px 100px rgba(0,0,0,.9),
+        0 20px 40px rgba(0,0,0,.6);
       overflow: hidden;
-      flex-shrink: 0;
     }
-    /* Dynamic island */
-    .phone::before {
-      content: '';
+
+    /* Screen glass inset */
+    .phone-screen {
       position: absolute;
-      top: 12px;
+      inset: 3px;
+      background: #000;
+      border-radius: 53px;
+      overflow: hidden;
+    }
+
+    /* Dynamic Island */
+    .dynamic-island {
+      position: absolute;
+      top: 13px;
       left: 50%;
       transform: translateX(-50%);
-      width: 120px;
-      height: 34px;
+      width: 126px;
+      height: 37px;
       background: #000;
       border-radius: 20px;
-      z-index: 10;
+      z-index: 20;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
     }
+    /* Camera dot */
+    .dynamic-island::after {
+      content: '';
+      width: 10px;
+      height: 10px;
+      background: #1a1a1a;
+      border-radius: 50%;
+      border: 1.5px solid #2a2a2a;
+    }
+
     iframe {
       width: 100%;
       height: 100%;
       border: none;
-      border-radius: 54px;
     }
+
+    /* Side buttons */
+    .btn-left-top {
+      position: absolute;
+      left: -5px; top: 120px;
+      width: 4px; height: 34px;
+      background: #2a2a2a;
+      border-radius: 2px 0 0 2px;
+    }
+    .btn-left-vol-up {
+      position: absolute;
+      left: -5px; top: 170px;
+      width: 4px; height: 64px;
+      background: #2a2a2a;
+      border-radius: 2px 0 0 2px;
+    }
+    .btn-left-vol-dn {
+      position: absolute;
+      left: -5px; top: 244px;
+      width: 4px; height: 64px;
+      background: #2a2a2a;
+      border-radius: 2px 0 0 2px;
+    }
+    .btn-right {
+      position: absolute;
+      right: -5px; top: 190px;
+      width: 4px; height: 100px;
+      background: #2a2a2a;
+      border-radius: 0 2px 2px 0;
+    }
+
     .label {
-      color: #666;
+      color: #444;
       font-size: 12px;
-      text-align: center;
-      margin-top: 12px;
+      letter-spacing: 0.5px;
     }
+
+    /* ── Info panel ── */
     .info {
-      color: #aaa;
-      max-width: 320px;
-      font-size: 14px;
-      line-height: 1.6;
+      max-width: 280px;
+      color: #666;
+      font-size: 13px;
+      line-height: 1.7;
     }
-    .info h2 { color: #fff; margin-bottom: 12px; font-size: 18px; }
-    .info p { margin-bottom: 12px; color: #888; }
-    .info code {
-      background: #222;
-      color: #60a5fa;
-      padding: 2px 6px;
-      border-radius: 4px;
-      font-size: 12px;
+    .info h2 {
+      color: #eee;
+      font-size: 20px;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+    .info .sub {
+      color: #555;
+      font-size: 11px;
+      margin-bottom: 20px;
+      letter-spacing: 0.3px;
     }
     .tip {
-      background: #1a1a1a;
-      border: 1px solid #333;
+      background: #141414;
+      border: 1px solid #222;
       border-radius: 12px;
-      padding: 12px;
-      margin-top: 8px;
-      font-size: 13px;
-      color: #999;
+      padding: 12px 14px;
+      margin-bottom: 10px;
+      font-size: 12px;
+      color: #666;
+      line-height: 1.6;
     }
+    .tip strong { color: #ccc; display: block; margin-bottom: 2px; }
+    code {
+      background: #1e1e1e;
+      color: #60a5fa;
+      padding: 1px 6px;
+      border-radius: 4px;
+      font-size: 11px;
+      font-family: 'SF Mono', monospace;
+    }
+    .dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 6px; }
+    .green { background: #22c55e; }
+    .red   { background: #ef4444; }
+    .blue  { background: #3b82f6; }
   </style>
 </head>
 <body>
-  <div class="wrapper">
-    <div>
-      <div class="phone">
-        <iframe src="/" title="Pulse App"></iframe>
+
+  <!-- iPhone 16 Pro -->
+  <div class="phone-wrap">
+    <div class="phone">
+      <!-- Side buttons -->
+      <div class="btn-left-top"></div>
+      <div class="btn-left-vol-up"></div>
+      <div class="btn-left-vol-dn"></div>
+      <div class="btn-right"></div>
+
+      <div class="phone-screen">
+        <div class="dynamic-island"></div>
+        <iframe
+          src="/"
+          title="Pulse App"
+          style="padding-top: 0;"
+        ></iframe>
       </div>
-      <p class="label">iPhone 15 Pro (393×852)</p>
+    </div>
+    <p class="label">iPhone 16 Pro · 402 × 874</p>
+  </div>
+
+  <!-- Info panel -->
+  <div class="info">
+    <h2>Pulse</h2>
+    <p class="sub">Live preview · iPhone 16 Pro</p>
+
+    <div class="tip">
+      <strong>🔄 Live preview</strong>
+      Sla een bestand op → de app herlaadt automatisch via HMR. Je ziet wijzigingen direct in het frame.
     </div>
 
-    <div class="info">
-      <h2>Pulse Preview</h2>
-      <p>Live preview van de app in een iPhone-frame. De app draait echt — je kunt er doorheen klikken.</p>
+    <div class="tip">
+      <strong>📱 Installeren op je iPhone 16 Pro</strong>
+      Open <code>pulse-631q.vercel.app</code> in Safari → tik op <code>↑ Deel</code> → <em>Zet op beginscherm</em>
+    </div>
 
-      <div class="tip">
-        💡 <strong style="color:#fff">Wijzigingen zien?</strong><br>
-        Sla een bestand op → de pagina herlaadt automatisch via HMR.
-      </div>
+    <div class="tip">
+      <strong>🌐 Vercel URL</strong>
+      <code>https://pulse-631q.vercel.app</code><br>
+      Werkt overal, ook buiten je thuisnetwerk.
+    </div>
 
-      <div class="tip" style="margin-top:8px">
-        📱 <strong style="color:#fff">Op je echte iPhone?</strong><br>
-        Ga naar <code>https://pulse-631q.vercel.app/</code> in Safari → Deel → Zet op beginscherm.
-      </div>
-
-      <div class="tip" style="margin-top:8px">
-        🖥️ <strong style="color:#fff">Dev server</strong><br>
-        Open dit bestand via <code>http://localhost:5173/preview.html</code>
+    <div class="tip">
+      <strong>📡 Databronnen actief</strong>
+      <div style="margin-top:6px; display:flex; flex-direction:column; gap:4px;">
+        <span><span class="dot green"></span>Finnhub — financieel nieuws</span>
+        <span><span class="dot green"></span>Bloomberg RSS — marktnieuws</span>
+        <span><span class="dot green"></span>Reuters RSS — business news</span>
+        <span><span class="dot blue"></span>football-data.org — WK 2026</span>
+        <span><span class="dot green"></span>CoinGecko — BTC / ETH prijs</span>
       </div>
     </div>
   </div>
+
 </body>
 </html>
