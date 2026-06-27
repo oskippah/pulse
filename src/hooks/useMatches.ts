@@ -16,9 +16,13 @@ export function useMatches() {
   const load = useCallback(async () => {
     setError(null)
     try {
-      const [m, s] = await Promise.all([fetchMatches(), fetchStandings()])
-      setMatches(m)
-      setStandings(s)
+      const [matchResult, standingResult] = await Promise.allSettled([
+        fetchMatches(),
+        fetchStandings(),
+      ])
+      if (matchResult.status === 'fulfilled') setMatches(matchResult.value)
+      else throw matchResult.reason
+      if (standingResult.status === 'fulfilled') setStandings(standingResult.value)
       setLastUpdated(new Date())
     } catch (e) {
       setError(e instanceof Error ? e.message : 'Failed to load match data')
