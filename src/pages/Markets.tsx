@@ -100,7 +100,7 @@ export function Markets({ filters, favoriteTeamIds, onMatchClick }: Props) {
             <button
               key={chip.key}
               onClick={() => setActiveCategory(chip.key)}
-              className={`px-3 py-1 rounded-full text-xs font-semibold whitespace-nowrap transition-colors shrink-0 ${
+              className={`px-3 py-2 rounded-full text-xs font-semibold whitespace-nowrap min-h-[36px] transition-colors shrink-0 ${
                 activeCategory === chip.key ? chip.active : chip.color
               }`}
             >

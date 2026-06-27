@@ -110,7 +110,7 @@ export function Settings({ prefs, onChange }: Props) {
               right={
                 <button
                   onClick={() => setTheme(t)}
-                  className={`text-sm font-medium ${
+                  className={`min-w-[44px] min-h-[44px] flex items-center justify-center text-sm font-medium ${
                     prefs.theme === t
                       ? 'text-blue-500'
                       : 'text-gray-300 dark:text-zinc-600'
@@ -194,7 +194,7 @@ export function Settings({ prefs, onChange }: Props) {
                 right={
                   <button
                     onClick={() => removeTicker(sym)}
-                    className="text-red-500 text-sm font-medium"
+                    className="text-red-500 text-sm font-medium min-w-[44px] min-h-[44px] flex items-center justify-center"
                   >
                     Remove
                   </button>
