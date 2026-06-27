@@ -18,8 +18,7 @@ export function MatchCard({ match, onClick, isFavorite = false, onToggleFavorite
   const showScore  = isLive || isFinished
   const time       = format(toZonedTime(parseISO(match.utcDate), TZ), 'HH:mm')
 
-  const accentColor = isLive ? 'var(--c-green)' : isFinished ? 'var(--c-text4)' : 'var(--c-accent)'
-  const liveBg      = 'rgba(48,209,88,0.06)'
+  const liveBg = 'rgba(48,209,88,0.06)'
 
   return (
     <div

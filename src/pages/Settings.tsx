@@ -34,28 +34,6 @@ function SectionHeader({ title }: { title: string }) {
   )
 }
 
-function Row({ label, sublabel, right, first, last }: {
-  label: string; sublabel?: string; right?: React.ReactNode; first?: boolean; last?: boolean
-}) {
-  return (
-    <div
-      className={`flex items-center justify-between px-4 py-3 ${!last ? 'border-b' : ''}`}
-      style={{
-        background: 'var(--c-surface)',
-        borderColor: 'var(--c-sep)',
-        borderRadius: first && last ? '16px' : first ? '16px 16px 0 0' : last ? '0 0 16px 16px' : '0',
-      }}
-    >
-      <div className="flex-1 min-w-0 mr-3">
-        <p className="text-[15px] font-medium" style={{ color: 'var(--c-text)' }}>{label}</p>
-        {sublabel && (
-          <p className="text-[12px] mt-0.5" style={{ color: 'var(--c-text3)' }}>{sublabel}</p>
-        )}
-      </div>
-      {right}
-    </div>
-  )
-}
 
 const THEMES: { value: Theme; label: string; Icon: React.ElementType }[] = [
   { value: 'light',  label: 'Licht',  Icon: Sun },
