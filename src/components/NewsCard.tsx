@@ -18,82 +18,95 @@ const CATEGORY_LABEL: Record<NewsArticle['category'], string> = {
   us: 'US', europe: 'EU', etf: 'ETF', crypto: 'CRYPTO', ticker: '',
 }
 
+const SOURCE_STYLE: Record<string, string> = {
+  Bloomberg: 'text-black dark:text-white font-bold',
+  Reuters:   'text-[#FF6B00] font-bold',
+}
+
 export function NewsCard({ article, compact = false }: Props) {
   const ageMs = Date.now() - article.datetime * 1000
-  const isBreaking = ageMs < 20 * 60 * 1000 // < 20 minutes
+  const isBreaking = ageMs < 20 * 60 * 1000
   const timeStr = format(new Date(article.datetime * 1000), 'HH:mm')
   const label = article.category === 'ticker' && article.related
     ? article.related.toUpperCase()
     : CATEGORY_LABEL[article.category]
+  const sourceStyle = SOURCE_STYLE[article.source] ?? 'text-gray-400 dark:text-zinc-500'
 
   if (compact) {
     return (
-      <a
-        href={article.url}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="flex items-start gap-2.5 py-2.5 border-b border-gray-100 dark:border-zinc-800/80 last:border-0 hover:bg-gray-50 dark:hover:bg-zinc-900/50 transition-colors px-1 -mx-1"
-      >
+      <div className="flex items-start gap-2.5 py-3 border-b border-gray-100 dark:border-zinc-800/80 last:border-0">
         {isBreaking && (
-          <span className="shrink-0 mt-0.5 w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse" />
+          <span className="shrink-0 mt-1.5 w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse" />
         )}
         <div className="flex-1 min-w-0">
-          <p className="text-sm font-medium text-black dark:text-white leading-snug line-clamp-2">
-            {article.headline}
-          </p>
-          <div className="flex items-center gap-1.5 mt-0.5">
-            <span className={`text-[9px] font-bold px-1 py-px rounded uppercase tracking-wide ${CATEGORY_STYLE[article.category]}`}>
-              {label}
-            </span>
-            <span className="text-[10px] text-gray-400 dark:text-zinc-500">{article.source}</span>
+          {/* Meta row */}
+          <div className="flex items-center gap-1.5 mb-1">
+            <span className={`text-[10px] font-bold ${sourceStyle}`}>{article.source}</span>
             <span className="text-[10px] text-gray-300 dark:text-zinc-700">·</span>
             <span className={`text-[10px] font-medium ${isBreaking ? 'text-red-500' : 'text-gray-400 dark:text-zinc-500'}`}>
               {isBreaking ? `🔴 ${timeStr}` : timeStr}
             </span>
+            {label && (
+              <>
+                <span className="text-[10px] text-gray-300 dark:text-zinc-700">·</span>
+                <span className={`text-[9px] font-bold px-1 py-px rounded uppercase tracking-wide ${CATEGORY_STYLE[article.category]}`}>
+                  {label}
+                </span>
+              </>
+            )}
           </div>
+          {/* Headline */}
+          <p className="text-sm font-semibold text-black dark:text-white leading-snug">
+            {article.headline}
+          </p>
+          {/* Summary */}
+          {article.summary && article.summary !== article.headline && (
+            <p className="text-xs text-gray-500 dark:text-zinc-400 mt-1 leading-relaxed line-clamp-2">
+              {article.summary}
+            </p>
+          )}
         </div>
-      </a>
+      </div>
     )
   }
 
   return (
-    <a
-      href={article.url}
-      target="_blank"
-      rel="noopener noreferrer"
-      className="block bg-white dark:bg-zinc-900 rounded-2xl border border-gray-100 dark:border-zinc-800 p-4 hover:bg-gray-50 dark:hover:bg-zinc-800/60 transition-colors active:scale-[0.98] transform"
-    >
+    <div className="bg-white dark:bg-zinc-900 rounded-2xl border border-gray-100 dark:border-zinc-800 p-4">
       {isBreaking && (
         <div className="flex items-center gap-1.5 mb-2">
           <span className="w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse" />
           <span className="text-[10px] font-bold text-red-500 uppercase tracking-wide">Breaking</span>
         </div>
       )}
-      <div className="flex items-start gap-3">
-        <div className="flex-1 min-w-0">
-          <div className="flex items-center gap-2 mb-1.5 flex-wrap">
+
+      {/* Meta row */}
+      <div className="flex items-center gap-2 mb-2 flex-wrap">
+        <span className={`text-xs font-bold ${sourceStyle}`}>{article.source}</span>
+        <span className="text-xs text-gray-300 dark:text-zinc-700">·</span>
+        <span className={`text-xs font-medium ${isBreaking ? 'text-red-500' : 'text-gray-400 dark:text-zinc-500'}`}>
+          {timeStr}
+        </span>
+        {label && (
+          <>
+            <span className="text-xs text-gray-300 dark:text-zinc-700">·</span>
             <span className={`text-[10px] font-semibold px-1.5 py-0.5 rounded-md uppercase tracking-wide ${CATEGORY_STYLE[article.category]}`}>
               {label}
             </span>
-            <span className="text-xs text-gray-400 dark:text-zinc-500">{article.source}</span>
-            <span className="text-xs text-gray-300 dark:text-zinc-700">·</span>
-            <span className={`text-xs font-medium ${isBreaking ? 'text-red-500' : 'text-gray-400 dark:text-zinc-500'}`}>
-              {timeStr}
-            </span>
-          </div>
-          <p className="text-sm font-semibold text-black dark:text-white leading-snug line-clamp-3">
-            {article.headline}
-          </p>
-        </div>
-        {article.image && !compact && (
-          <img
-            src={article.image}
-            alt=""
-            className="w-14 h-14 rounded-xl object-cover shrink-0 bg-gray-100 dark:bg-zinc-800"
-            onError={(e) => { (e.target as HTMLImageElement).style.display = 'none' }}
-          />
+          </>
         )}
       </div>
-    </a>
+
+      {/* Headline */}
+      <p className="text-sm font-bold text-black dark:text-white leading-snug mb-2">
+        {article.headline}
+      </p>
+
+      {/* Summary — the actual content, no link */}
+      {article.summary && article.summary !== article.headline && (
+        <p className="text-sm text-gray-600 dark:text-zinc-300 leading-relaxed line-clamp-4">
+          {article.summary}
+        </p>
+      )}
+    </div>
   )
 }
