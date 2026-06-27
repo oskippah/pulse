@@ -4,6 +4,21 @@ import tailwindcss from '@tailwindcss/vite'
 import { VitePWA } from 'vite-plugin-pwa'
 
 export default defineConfig({
+  server: {
+    proxy: {
+      '/api/football': {
+        target: 'https://api.football-data.org/v4',
+        changeOrigin: true,
+        rewrite: (path) => {
+          const url = new URL(path, 'http://localhost')
+          return decodeURIComponent(url.searchParams.get('path') ?? '/')
+        },
+        headers: {
+          'X-Auth-Token': process.env.VITE_FOOTBALL_API_KEY ?? '',
+        },
+      },
+    },
+  },
   plugins: [
     react(),
     tailwindcss(),

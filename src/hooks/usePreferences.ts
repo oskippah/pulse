@@ -16,10 +16,16 @@ function loadLocal(): Preferences {
 export function usePreferences() {
   const [prefs, setPrefsState] = useState<Preferences>(loadLocal)
 
-  // On mount: try to load from Supabase and merge
+  // On mount: load from Supabase but never override theme (keep it local-only)
   useEffect(() => {
     loadPreferences().then((remote) => {
-      if (remote) setPrefsState((p) => ({ ...p, ...remote }))
+      if (remote) {
+        setPrefsState((p) => ({
+          ...p,
+          ...remote,
+          theme: p.theme, // theme is local-only — Supabase must never override it
+        }))
+      }
     })
   }, [])
 
