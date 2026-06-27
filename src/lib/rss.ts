@@ -16,12 +16,20 @@ async function fetchFeed(feed: 'bloomberg' | 'reuters'): Promise<RSSItem[]> {
   return data.items ?? []
 }
 
+function stripHtml(html: string): string {
+  return html
+    .replace(/<[^>]*>/g, ' ')         // remove HTML tags
+    .replace(/https?:\/\/\S+/g, '')   // remove URLs (iOS Safari auto-links them)
+    .replace(/\s{2,}/g, ' ')          // collapse whitespace
+    .trim()
+}
+
 function toArticle(item: RSSItem, feed: 'bloomberg' | 'reuters'): NewsArticle {
   const datetime = item.pubDate ? Math.floor(new Date(item.pubDate).getTime() / 1000) : Math.floor(Date.now() / 1000)
   return {
     id: `rss-${feed}-${item.id}`,
-    headline: item.title,
-    summary: item.description,
+    headline: stripHtml(item.title),
+    summary: stripHtml(item.description),
     source: item.source,
     url: item.link,
     datetime,

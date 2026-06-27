@@ -3,7 +3,7 @@ import { fetchNews } from '../lib/finnhub'
 import { fetchRSSFeeds } from '../lib/rss'
 import type { NewsArticle, NewsFilters } from '../types'
 
-const REFRESH_INTERVAL = 5 * 60 * 1000
+const REFRESH_INTERVAL = 3 * 60 * 1000
 
 export function useNews(filters: NewsFilters) {
   const [articles, setArticles] = useState<NewsArticle[]>([])
