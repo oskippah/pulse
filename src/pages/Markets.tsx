@@ -10,14 +10,16 @@ import { useNews } from '../hooks/useNews'
 import { useMatches } from '../hooks/useMatches'
 import type { Match, NewsArticle, NewsFilters } from '../types'
 
-type CategoryKey = 'us' | 'europe' | 'etfs' | 'crypto' | 'all'
+type CategoryKey = 'us' | 'europe' | 'etfs' | 'crypto' | 'bloomberg' | 'reuters' | 'all'
 
 const CATEGORY_CHIPS: { key: CategoryKey; label: string; color: string; active: string }[] = [
-  { key: 'all',    label: 'Alles',   color: 'bg-gray-100 dark:bg-zinc-800 text-gray-600 dark:text-gray-300', active: 'bg-gray-800 dark:bg-white text-white dark:text-black' },
-  { key: 'us',     label: 'US',      color: 'bg-gray-100 dark:bg-zinc-800 text-gray-600 dark:text-gray-300', active: 'bg-blue-500 text-white' },
-  { key: 'europe', label: 'Europa',  color: 'bg-gray-100 dark:bg-zinc-800 text-gray-600 dark:text-gray-300', active: 'bg-purple-500 text-white' },
-  { key: 'etfs',   label: 'ETF',     color: 'bg-gray-100 dark:bg-zinc-800 text-gray-600 dark:text-gray-300', active: 'bg-green-500 text-white' },
-  { key: 'crypto', label: 'Crypto',  color: 'bg-gray-100 dark:bg-zinc-800 text-gray-600 dark:text-gray-300', active: 'bg-orange-500 text-white' },
+  { key: 'all',       label: 'Alles',     color: 'bg-gray-100 dark:bg-zinc-800 text-gray-600 dark:text-gray-300', active: 'bg-gray-800 dark:bg-white text-white dark:text-black' },
+  { key: 'bloomberg', label: 'Bloomberg', color: 'bg-gray-100 dark:bg-zinc-800 text-gray-600 dark:text-gray-300', active: 'bg-black dark:bg-white text-white dark:text-black' },
+  { key: 'reuters',   label: 'Reuters',   color: 'bg-gray-100 dark:bg-zinc-800 text-gray-600 dark:text-gray-300', active: 'bg-[#FF6B00] text-white' },
+  { key: 'us',        label: 'US',        color: 'bg-gray-100 dark:bg-zinc-800 text-gray-600 dark:text-gray-300', active: 'bg-blue-500 text-white' },
+  { key: 'europe',    label: 'Europa',    color: 'bg-gray-100 dark:bg-zinc-800 text-gray-600 dark:text-gray-300', active: 'bg-purple-500 text-white' },
+  { key: 'etfs',      label: 'ETF',       color: 'bg-gray-100 dark:bg-zinc-800 text-gray-600 dark:text-gray-300', active: 'bg-green-500 text-white' },
+  { key: 'crypto',    label: 'Crypto',    color: 'bg-gray-100 dark:bg-zinc-800 text-gray-600 dark:text-gray-300', active: 'bg-orange-500 text-white' },
 ]
 
 interface Props {
@@ -39,10 +41,12 @@ export function Markets({ filters, favoriteTeamIds, onMatchClick }: Props) {
   const visibleArticles: NewsArticle[] = activeCategory === 'all'
     ? articles
     : articles.filter((a) => {
-        if (activeCategory === 'us')     return a.category === 'us' || a.category === 'ticker'
-        if (activeCategory === 'europe') return a.category === 'europe'
-        if (activeCategory === 'etfs')   return a.category === 'etf'
-        if (activeCategory === 'crypto') return a.category === 'crypto'
+        if (activeCategory === 'bloomberg') return a.source === 'Bloomberg'
+        if (activeCategory === 'reuters')   return a.source === 'Reuters'
+        if (activeCategory === 'us')        return a.category === 'us' || a.category === 'ticker'
+        if (activeCategory === 'europe')    return a.category === 'europe'
+        if (activeCategory === 'etfs')      return a.category === 'etf'
+        if (activeCategory === 'crypto')    return a.category === 'crypto'
         return true
       })
 
@@ -86,10 +90,12 @@ export function Markets({ filters, favoriteTeamIds, onMatchClick }: Props) {
       <div className="flex gap-2 px-4 py-2 overflow-x-auto scrollbar-none bg-white dark:bg-black border-b border-gray-100 dark:border-zinc-800">
         {CATEGORY_CHIPS.map((chip) => {
           // Only show chips for enabled categories
-          if (chip.key === 'us'     && !filters.us)     return null
-          if (chip.key === 'europe' && !filters.europe)  return null
-          if (chip.key === 'etfs'   && !filters.etfs)    return null
-          if (chip.key === 'crypto' && !filters.crypto)  return null
+          if (chip.key === 'bloomberg' && !filters.bloomberg) return null
+          if (chip.key === 'reuters'   && !filters.reuters)   return null
+          if (chip.key === 'us'        && !filters.us)        return null
+          if (chip.key === 'europe'    && !filters.europe)    return null
+          if (chip.key === 'etfs'      && !filters.etfs)      return null
+          if (chip.key === 'crypto'    && !filters.crypto)    return null
           return (
             <button
               key={chip.key}

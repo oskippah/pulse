@@ -147,6 +147,20 @@ export function Settings({ prefs, onChange }: Props) {
           />
         </Section>
 
+        {/* RSS Feeds */}
+        <Section title="RSS Feeds">
+          <Row
+            label="Bloomberg"
+            sublabel="Bloomberg Markets RSS — live updates"
+            right={<Toggle enabled={prefs.newsFilters.bloomberg ?? true} onToggle={() => toggleFilter('bloomberg')} />}
+          />
+          <Row
+            label="Reuters"
+            sublabel="Reuters Business News RSS"
+            right={<Toggle enabled={prefs.newsFilters.reuters ?? true} onToggle={() => toggleFilter('reuters')} />}
+          />
+        </Section>
+
         {/* Custom tickers */}
         <Section title="Individual Tickers">
           <div className="px-4 py-3 border-b border-gray-100 dark:border-zinc-800">

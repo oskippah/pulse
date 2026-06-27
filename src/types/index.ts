@@ -7,6 +7,8 @@ export interface NewsFilters {
   etfs: boolean
   crypto: boolean
   tickers: string[]
+  bloomberg: boolean
+  reuters: boolean
 }
 
 export interface Preferences {
@@ -23,6 +25,8 @@ export const DEFAULT_PREFERENCES: Preferences = {
     etfs: false,
     crypto: false,
     tickers: [],
+    bloomberg: true,
+    reuters: true,
   },
   favoriteTeamIds: [],
 }
