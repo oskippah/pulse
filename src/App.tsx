@@ -19,7 +19,15 @@ export default function App() {
     if (next.theme !== theme) setTheme(next.theme)
   }
 
-  // Jump from Search to WorldCup with a specific match pre-selected
+  const toggleFavorite = (teamId: number) => {
+    setPrefs((p) => ({
+      ...p,
+      favoriteTeamIds: p.favoriteTeamIds.includes(teamId)
+        ? p.favoriteTeamIds.filter((id) => id !== teamId)
+        : [...p.favoriteTeamIds, teamId],
+    }))
+  }
+
   const handleMatchFromSearch = (match: Match) => {
     setPendingMatch(match)
     setTab('worldcup')
@@ -29,10 +37,16 @@ export default function App() {
     <div className="min-h-svh bg-gray-50 dark:bg-black text-black dark:text-white">
       <div className="h-svh flex flex-col overflow-hidden">
         <div className={tab === 'markets' ? 'flex flex-col flex-1 overflow-hidden' : 'hidden'}>
-          <Markets filters={prefs.newsFilters} />
+          <Markets
+            filters={prefs.newsFilters}
+            favoriteTeamIds={prefs.favoriteTeamIds}
+            onMatchClick={(m) => { setPendingMatch(m); setTab('worldcup') }}
+          />
         </div>
         <div className={tab === 'worldcup' ? 'flex flex-col flex-1 overflow-hidden' : 'hidden'}>
           <WorldCup
+            favoriteTeamIds={prefs.favoriteTeamIds}
+            onToggleFavorite={toggleFavorite}
             initialMatch={pendingMatch}
             onNavigated={() => setPendingMatch(null)}
           />

@@ -48,11 +48,11 @@ export async function loadPreferences(): Promise<Preferences | null> {
   if (!supabase) return null
   const { data } = await supabase
     .from('preferences')
-    .select('theme, news_filters')
+    .select('theme, news_filters, favorite_team_ids')
     .eq('user_key', 'default')
     .maybeSingle()
   if (!data) return null
-  return { theme: data.theme, newsFilters: data.news_filters }
+  return { theme: data.theme, newsFilters: data.news_filters, favoriteTeamIds: data.favorite_team_ids ?? [] }
 }
 
 /** Save user preferences to Supabase. */
@@ -63,6 +63,7 @@ export async function savePreferences(prefs: Preferences): Promise<void> {
       user_key: 'default',
       theme: prefs.theme,
       news_filters: prefs.newsFilters,
+      favorite_team_ids: prefs.favoriteTeamIds,
       updated_at: new Date().toISOString(),
     },
     { onConflict: 'user_key' },

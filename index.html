@@ -1,10 +1,27 @@
 <!doctype html>
-<html lang="en">
+<html lang="nl">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>vite-project</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <title>Pulse</title>
+    <meta name="description" content="Financieel nieuws en FIFA WK 2026 dashboard" />
+
+    <!-- PWA manifest (gegenereerd door vite-plugin-pwa) -->
+    <link rel="manifest" href="/manifest.webmanifest" />
+
+    <!-- iOS specifiek: dit maakt de app installeerbaar als native-achtige app via Safari -->
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="Pulse" />
+
+    <!-- iOS icoon (180x180 — Apple Touch Icon) -->
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+
+    <!-- Splash screen kleur -->
+    <meta name="theme-color" content="#000000" />
+
+    <!-- Voorkom dat nummers automatisch een telefoonlink worden op iOS -->
+    <meta name="format-detection" content="telephone=no" />
   </head>
   <body>
     <div id="root"></div>

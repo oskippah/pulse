@@ -12,6 +12,7 @@ export interface NewsFilters {
 export interface Preferences {
   theme: Theme
   newsFilters: NewsFilters
+  favoriteTeamIds: number[]
 }
 
 export const DEFAULT_PREFERENCES: Preferences = {
@@ -23,6 +24,7 @@ export const DEFAULT_PREFERENCES: Preferences = {
     crypto: false,
     tickers: [],
   },
+  favoriteTeamIds: [],
 }
 
 export interface NewsArticle {
