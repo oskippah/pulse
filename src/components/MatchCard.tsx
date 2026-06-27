@@ -42,7 +42,7 @@ export function MatchCard({ match, onClick, isFavorite = false, onToggleFavorite
       >
         {/* Top row: group + time + status */}
         <div className="flex items-center justify-between mb-2.5">
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 flex-wrap">
             {match.group && (
               <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 uppercase tracking-wide">
                 {groupLabel(match.group)}
@@ -52,6 +52,9 @@ export function MatchCard({ match, onClick, isFavorite = false, onToggleFavorite
               <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-purple-50 dark:bg-purple-900/30 text-purple-600 dark:text-purple-400 uppercase tracking-wide">
                 {match.stage.replace(/_/g, ' ')}
               </span>
+            )}
+            {match.venue?.city && (
+              <span className="text-[10px] text-gray-400 dark:text-zinc-500">📍 {match.venue.city}</span>
             )}
           </div>
 

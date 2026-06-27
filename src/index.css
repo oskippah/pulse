@@ -20,3 +20,15 @@ body {
   -webkit-overflow-scrolling: touch;
   scroll-behavior: smooth;
 }
+
+/* iOS safe area — fixes white bar at bottom in Safari */
+.pb-safe {
+  padding-bottom: max(env(safe-area-inset-bottom, 0px), 8px);
+}
+.mb-nav {
+  margin-bottom: calc(64px + env(safe-area-inset-bottom, 0px));
+}
+
+/* Hide scrollbars */
+.scrollbar-none::-webkit-scrollbar { display: none; }
+.scrollbar-none { scrollbar-width: none; }

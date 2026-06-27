@@ -62,12 +62,19 @@ export type MatchStatus =
   | 'POSTPONED'
   | 'CANCELLED'
 
+export interface Venue {
+  id: number
+  name: string
+  city: string
+}
+
 export interface Match {
   id: number
   utcDate: string
   status: MatchStatus
   stage: string
   group: string | null
+  venue?: Venue
   homeTeam: Team
   awayTeam: Team
   score: {

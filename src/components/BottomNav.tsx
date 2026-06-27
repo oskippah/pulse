@@ -15,7 +15,7 @@ const TABS: { id: Tab; label: string; Icon: React.ElementType }[] = [
 
 export function BottomNav({ active, onChange }: Props) {
   return (
-    <nav className="fixed bottom-0 inset-x-0 z-50 bg-white/90 dark:bg-zinc-950/90 backdrop-blur-xl border-t border-gray-200/60 dark:border-zinc-800/60">
+    <nav className="fixed bottom-0 inset-x-0 z-50 bg-white/90 dark:bg-zinc-950/90 backdrop-blur-xl border-t border-gray-200/60 dark:border-zinc-800/60 pb-safe">
       <div className="flex">
         {TABS.map(({ id, label, Icon }) => {
           const isActive = active === id

@@ -43,7 +43,7 @@ function MatchDetailView({
     <div className="flex flex-col h-full">
       <Header
         title={`${match.homeTeam.tla} – ${match.awayTeam.tla}`}
-        subtitle={formatLocal(match.utcDate, 'EEEE d MMM · HH:mm')}
+        subtitle={`${formatLocal(match.utcDate, 'EEEE d MMM · HH:mm')}${match.venue ? ` · ${match.venue.name}, ${match.venue.city}` : ''}`}
         right={
           <button onClick={onBack} className="text-blue-500 text-sm font-semibold px-1">
             ← Terug
