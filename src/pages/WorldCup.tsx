@@ -284,8 +284,8 @@ export function WorldCup({ favoriteTeamIds, onToggleFavorite, initialMatch, onNa
         title="WK 2026"
         subtitle={subtitle}
         right={
-          <button onClick={refresh} className="text-blue-500 p-1">
-            <RefreshCw size={17} />
+          <button onClick={refresh} className="text-blue-500 p-3 min-w-[44px] min-h-[44px] flex items-center justify-center">
+            <RefreshCw size={18} />
           </button>
         }
       />

@@ -72,12 +72,12 @@ export function Markets({ filters, favoriteTeamIds, onMatchClick }: Props) {
         title="Markets"
         subtitle={subtitle}
         right={
-          <div className="flex items-center gap-2">
-            <button onClick={() => setCompact((c) => !c)} className="text-gray-400 dark:text-zinc-500 p-1">
-              {compact ? <LayoutGrid size={17} /> : <LayoutList size={17} />}
+          <div className="flex items-center gap-1">
+            <button onClick={() => setCompact((c) => !c)} className="text-gray-400 dark:text-zinc-500 p-3 min-w-[44px] min-h-[44px] flex items-center justify-center">
+              {compact ? <LayoutGrid size={18} /> : <LayoutList size={18} />}
             </button>
-            <button onClick={refresh} className="text-blue-500 p-1">
-              <RefreshCw size={17} />
+            <button onClick={refresh} className="text-blue-500 p-3 min-w-[44px] min-h-[44px] flex items-center justify-center">
+              <RefreshCw size={18} />
             </button>
           </div>
         }
