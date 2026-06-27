@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { BottomNav } from './components/BottomNav'
+import { InstallBanner } from './components/InstallBanner'
 import { Markets } from './pages/Markets'
 import { WorldCup } from './pages/WorldCup'
 import { Search } from './pages/Search'
@@ -62,6 +63,7 @@ export default function App() {
         <Settings prefs={prefs} onChange={handlePrefsChange} />
       </div>
       <BottomNav active={tab} onChange={setTab} />
+      <InstallBanner />
     </div>
   )
 }
